@@ -209,7 +209,7 @@ const Compiler = () => {
                 id="js-wrap"
                 style={{
                   visibility: mode === "js" ? "visible" : "hidden",
-                  marginTop: "-510px",
+                  marginTop: "-355px",
                 }}
               >
                 <textarea className="form-control" id="js"></textarea>

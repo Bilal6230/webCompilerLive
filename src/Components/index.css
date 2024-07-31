@@ -97,7 +97,7 @@
   
   .runjs__editor {
 	position: absolute;
-	top: 52px;
+	top: 62px;
 	left: 10px;
 	bottom: 0px;
 	width: 50%;
@@ -118,7 +118,7 @@
 	position: absolute;
 	top: 42px;
 	right: 5px;
-	bottom: 26;
+	bottom: 260px;
 	border-radius: 8px;
 	border-left: 1px solid rgb(190, 184, 184);
 	width: 49.5%;

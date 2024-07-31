@@ -1,0 +1,49 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #212424;
+    padding: 10px 20px;
+  }
+  
+  .navbar-left {
+    display: flex;
+    align-items: center;
+  }
+  
+  .navbar-logo {
+    height: 24px;
+    margin-right: 10px;
+  }
+  
+  .navbar-title {
+    color: white;
+    font-size: 18px; /* Adjust font size as needed */
+    font-weight: bold;
+  }
+  
+  .navbar-right {
+    display: flex;
+    align-items: center;
+  }
+  
+  .navbar-button {
+    background: none;
+    color: white;
+    border: none;
+    margin-left: 10px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .trial-button {
+    border: 1px solid #007bff; /* Blue border for Trial button */
+    border-radius: 20px; /* Rounded corners */
+    padding: 5px 10px;
+  }
+  
+  .navbar-button:hover,
+  .trial-button:hover {
+    opacity: 0.8; /* Slightly transparent on hover */
+  }
+  

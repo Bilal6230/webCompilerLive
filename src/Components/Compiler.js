@@ -5,16 +5,29 @@ import "./bulma.min.css";
 import "./index.css";
 import { initCodeEditor } from "./lib";
 import Navbar from "./Navbbar";
-import { FaCss3, FaHtml5, FaRunning, FaTrash } from "react-icons/fa";
+import { FaArrowDown, FaCss3, FaHtml5, FaRunning, FaTrash } from "react-icons/fa";
 import { MdArrowForwardIos, MdRefresh } from "react-icons/md";
 import { DiJavascript } from "react-icons/di";
+import ConfettiCanvas from "./ConfettiCanvas";
 
 const Compiler = () => {
   const [mode, setMode] = useState("js");
   const [logs, setLogs] = useState([]);
+  const [showConfetti, setShowConfetti] = useState(false);
+  const [isMaximized, setIsMaximized] = useState(false);
+  const [isTestOpen, setIsTestOpen] = useState(true);
+  const [isConsoleOpen, setIsConsoleOpen] = useState(true);
 
+
+
+  const toggleTest = () => setIsTestOpen(!isTestOpen);
+  const toggleConsole = () => setIsConsoleOpen(!isConsoleOpen);
   const clearLogs = () => {
     setLogs([]);
+  };
+
+  const toggleMaximize = () => {
+    setIsMaximized((prev) => !prev);
   };
 
   useEffect(() => {
@@ -103,6 +116,10 @@ const Compiler = () => {
   const onRun = useCallback(() => {
     let iframe = document.getElementById("preview");
     iframe.contentWindow.location.reload(true);
+
+
+    setShowConfetti(true);
+    setTimeout(() => setShowConfetti(false), 3000);
   }, []);
 
   useEffect(() => {
@@ -133,7 +150,7 @@ const Compiler = () => {
       <div className="runjs">
         <Navbar />
         <div className="mainbody">
-          <div className="runjs__editor">
+          <div className={`runjs__editor ${isMaximized ? 'maximized' : ''}`}>
             <div className="tabs">
               <div
                 className={`tab ${mode === "html" ? "active" : ""}`}
@@ -153,6 +170,16 @@ const Compiler = () => {
               >
                 <DiJavascript color="yellow" size={"1.2rem"} /> index.js
               </div>
+              <div className="dropdown">
+            <button className="dropdown-button" onClick={toggleMaximize}>
+              <FaArrowDown />
+            </button>
+            <div className={`dropdown-menu ${isMaximized ? 'open' : ''}`}>
+              <button onClick={toggleMaximize}>
+                {isMaximized ? 'Minimize' : 'Maximize'}
+              </button>
+            </div>
+          </div>
             </div>
             <div className="editor-wrap">
               <div
@@ -160,6 +187,7 @@ const Compiler = () => {
                 style={{
                   visibility: mode === "html" ? "visible" : "hidden",
                   marginTop: "60px",
+                  height:"600px"
                 }}
               >
                 <textarea className="form-control" id="html"></textarea>
@@ -168,11 +196,11 @@ const Compiler = () => {
                 id="css-wrap"
                 style={{
                   visibility: mode === "css" ? "visible" : "hidden",
-                  marginTop: "-308px",
+                  marginTop: "-590px",
                 }}
               >
                 <textarea
-                  style={{ height: "566px" }}
+                  // style={{ height: "566px" }}
                   className="form-control"
                   id="css"
                 ></textarea>
@@ -181,7 +209,7 @@ const Compiler = () => {
                 id="js-wrap"
                 style={{
                   visibility: mode === "js" ? "visible" : "hidden",
-                  marginTop: "-310px",
+                  marginTop: "-355px",
                 }}
               >
                 <textarea className="form-control" id="js"></textarea>
@@ -200,67 +228,93 @@ const Compiler = () => {
               height="100%"
             ></iframe>
           </div>
-        </div>
+          </div>
         <div className="runjs__console" id="console">
-          <div
-            style={{
-              backgroundColor: "#5555",
-              color: "white",
-              display: "flex",
-              padding: "15px",
-              flexDirection: "row",
-              justifyContent: "space-between",
-              borderRight: "1px solid grey",
-              borderBottom: "1px solid grey",
-            }}
-          >
-            <h1 className="headingnew">Test (2/0)</h1>
-            <Tooltip content="Run code">
-              <button
-                style={{
-                  backgroundColor: "#65c8ff",
-                  padding: "8px",
-                  borderRadius: "6px",
-                  outline: "none",
-                  border: "none",
-                }}
-                onClick={onRun}
+        <div
+          style={{
+            backgroundColor: "#5555",
+            color: "white",
+            display: "flex",
+            padding: "15px",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            borderRight: "1px solid grey",
+            borderBottom: "1px solid grey",
+            cursor: "pointer"
+          }}
+          onClick={toggleTest}
+        >
+          <h1 className="headingnew">Test (0/2)</h1>
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <button
+              style={{
+                backgroundColor: "#65c8ff",
+                padding: "8px",
+                borderRadius: "6px",
+                outline: "none",
+                border: "none",
+                marginRight: "10px"
+              }}
+              onClick={onRun}
               >
-                {" "}
-                <MdArrowForwardIos /> Run Code{" "}
-              </button>
-            </Tooltip>
+              <MdArrowForwardIos /> Run Code
+            </button>
+            <FaArrowDown
+              style={{
+                transform: isTestOpen ? "rotate(0deg)" : "rotate(180deg)",
+                transition: "transform 0.3s"
+              }}
+            />
           </div>
         </div>
-        <div style={{ left: "50%" }} className="runjs__console" id="console">
-          <div
-            style={{
-              backgroundColor: "#5555",
-              color: "white",
-              display: "flex",
-              padding: "15px",
-              flexDirection: "column",
-              justifyContent: "space-between",
-              borderRight: "1px solid grey",
-              borderBottom: "1px solid grey",
-            }}
-          >
-            <h1 className="headingnew">Console</h1>
-            <div style={{ display: "flex", gap: "10px" }}>
-              {" "}
-              <MdRefresh onClick={clearLogs} size={"1.5rem"} />
-              <FaTrash color="red" size={"1.2rem"} />
-            </div>
+        {isTestOpen && (
+          <div style={{ backgroundColor: "#5555", color: "white", padding: "15px"}}>
+            {/* Your test content goes here */}
+            {showConfetti && <ConfettiCanvas />}
           </div>
-          {logs.map((log, index) => (
-            <p key={index}>
-              {log !=
-              "Warning: ReactDOM.render is no longer supported in React 18. Use createRoot instead. Until you switch to the new API, your app will behave as if it's running React 17. Learn more: https://reactjs.org/link/switch-to-createroot"
+        )}
+      </div>
+      <div className="runjs__console" id="console"  style={{left:"50%"}} >
+        <div
+          style={{
+            backgroundColor: "#5555",
+            color: "white",
+            display: "flex",
+            padding: "15px",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            borderRight: "1px solid grey",
+            marginLefteft:"200px" ,
+            borderBottom: "1px solid grey",
+            cursor: "pointer"
+          }}
+          onClick={toggleConsole}
+        >
+          <h1 className="headingnew">Console</h1>
+          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            <MdRefresh onClick={clearLogs} size={"1.5rem"} />
+            <FaTrash color="red" size={"1.2rem"} />
+            <FaArrowDown
+              style={{
+                transform: isConsoleOpen ? "rotate(0deg)" : "rotate(180deg)",
+                transition: "transform 0.3s"
+              }}
+              />
+          </div>
+        </div>
+        {isConsoleOpen && (
+          <div style={{ backgroundColor: "#5555", color: "white", padding: "15px", display:"flex",justifyContent:"space-between"}}>
+            {logs.map((log, index) => (
+              <p key={index}>
+                {log !==
+                "Warning: ReactDOM.render is no longer supported in React 18. Use createRoot instead. Until you switch to the new API, your app will behave as if it's running React 17. Learn more: https://reactjs.org/link/switch-to-createroot"
                 ? log
                 : ""}
-            </p>
-          ))}
-        </div>
+              </p>
+            ))}
+          </div>
+        )}
+      </div>
       </div>
   );
 };

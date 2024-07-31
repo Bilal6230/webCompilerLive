@@ -103,6 +103,7 @@
 	width: 50%;
 	border-radius: 8px;
 	background: var(--cardColor);
+	transition: all 0.3s ease;
   }
   
   .runjs__editor > div {
@@ -115,24 +116,24 @@
   
   .runjs__preview {
 	position: absolute;
-	top: 52px;
-	right: 28px;
-	bottom: 264px;
+	top: 42px;
+	right: 5px;
+	bottom: 260px;
 	border-radius: 8px;
 	border-left: 1px solid rgb(190, 184, 184);
-	width: 49%;
+	width: 49.5%;
 	color: white;
 	background: var(--cardColor);
   }
   
   .runjs__console {
 	position: absolute;
-	right: 10px;
-	height: 250px;
+	right: 5px;
+	height: 260px;
 	bottom: 10px;
-	left: 10px;
+	left: 4px;
 	border-radius: 4px;
-	width: 48%;
+	width: 49.5%;
 	overflow-y: auto;
 	background: #5555;
 	color: white;
@@ -255,5 +256,58 @@
 	display: flex;
 	flex-direction: row;
 	justify-content: space-evenly;
+  }
+
+  .dropdown {
+	position: relative;
+	display: inline-block;
+  }
+  
+  .dropdown-button {
+	background: none;
+	border: none;
+	display: flex;
+	justify-content: end;
+	color: white;
+	align-items: center;
+	cursor: pointer;
+  }
+  
+  .dropdown-menu {
+	display: none;
+	position: absolute;
+	top: 100%;
+	right: 0;
+	background-color: white;
+	color: black;
+	box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+	border-radius: 4px;
+	z-index: 1000; /* Ensure it's above other content */
+  }
+  
+  .dropdown-menu.open {
+	display: block;
+	margin-top: -40px;
+	margin-left: 30px;
+  }
+  
+  .dropdown-menu button {
+	background: none;
+	border: none;
+	padding: 10px;
+	cursor: pointer;
+	width: 100%;
+	text-align: left;
+  }
+  
+  
+  .maximized {
+	position: absolute; /* Change to fixed positioning for fullscreen effect */
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	margin-top: 50px;
+	z-index: 1000; /* Ensure it's above other elements */
   }
   

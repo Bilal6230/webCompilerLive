@@ -122,7 +122,7 @@ const Compiler = () => {
       <style>${css}</style>
     `;
       iframe.style.display = "block";
-      setIsPreviewLoading(false);
+      // setIsPreviewLoading(false);
       // setIsEditorLoading(false);
       // setIsConsoleLoading(false
   }, []);
@@ -172,8 +172,8 @@ const Compiler = () => {
       init.css
     );
 
-    setIsEditorLoading(false);
-    setIsConsoleLoading(false);
+    // setIsEditorLoading(false);
+    // setIsConsoleLoading(false);
 
     onRun();
   }, [onRun]);
@@ -215,7 +215,7 @@ const Compiler = () => {
           </div>
 
           <div className="editor-wrap">
-                        {isEditorLoading && <Loader/>}
+                        {/* {isEditorLoading && <Loader/>} */}
             <div
               id="html-wrap"
               style={{
@@ -252,8 +252,8 @@ const Compiler = () => {
         </div>
 
         <div className="runjs__preview">
-                  {isPreviewLoading && <Loader />}
-          <iframe
+                  {/* {isPreviewLoading && <Loader />} */}
+          {/* <iframe
             onLoad={onLoad}
             id="preview"
             style={{ backgroundColor: "#5555", color: "white" }}
@@ -261,7 +261,7 @@ const Compiler = () => {
             seamless
             width="100%"
             height="100%"
-          ></iframe> 
+          ></iframe>  */}
 
 <div className="preview-tabs" style={{borderBottom: "1px solid gray"}}>
             <button
@@ -409,9 +409,9 @@ const Compiler = () => {
               />
           </div>
         </div>
-       {isConsoleLoading ? (
+       {/* {isConsoleLoading ? (
           <Loader />
-        ) : (
+        ) : ( */}{
           logs.map((log, index) => (
             <p key={index}>
               {log !==
@@ -419,8 +419,8 @@ const Compiler = () => {
                 ? log
                 : ""}
             </p>
-          ))
-        )}
+          ))}
+        {/* )} */}
       </div>
     </div>
   );

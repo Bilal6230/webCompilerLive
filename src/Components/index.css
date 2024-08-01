@@ -113,38 +113,6 @@
 	right: 0;
 	bottom: 0;
   }
-
-
-
-  /* Loading.css */
-.loading-spinner {
-	border: 8px solid rgba(0, 0, 0, 0.1);
-	border-left-color: #22a6b3;
-	border-radius: 50%;
-	width: 40px;
-	height: 40px;
-	animation: spin 1s linear infinite;
-	margin: auto;
-  }
-  
-  @keyframes spin {
-	0% {
-	  transform: rotate(0deg);
-	}
-	100% {
-	  transform: rotate(360deg);
-	}
-  }
-  
-  .loading-container {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	top: 70px;
-	height: 60vh; /* Full screen height */
-	background-color: #0a0a0a;
-  }
-  
   
   .runjs__preview {
 	position: absolute;

@@ -80,6 +80,7 @@ const Compiler = () => {
     var preview;
     if (iframe.contentDocument) {
       preview = iframe.contentDocument;
+    
     } else if (iframe.contentWindow) {
       preview = iframe.contentWindow.document;
     } else {
@@ -222,7 +223,7 @@ const Compiler = () => {
               id="css-wrap"
               style={{
                 visibility: mode === "css" ? "visible" : "hidden",
-                marginTop: "-590px",
+                marginTop: "-580px",
               }}
             >
               <textarea
@@ -235,7 +236,7 @@ const Compiler = () => {
               id="js-wrap"
               style={{
                 visibility: mode === "js" ? "visible" : "hidden",
-                marginTop: "-300px",
+                marginTop: "-660px",
               }}
             >
               <textarea className="form-control" id="js"></textarea>
@@ -243,17 +244,8 @@ const Compiler = () => {
           </div>
         </div>
 
-        <div className="runjs__preview">
-                  {/* {isPreviewLoading && <Loader />} */}
-          {/* <iframe
-            onLoad={onLoad}
-            id="preview"
-            style={{ backgroundColor: "#5555", color: "white" }}
-            src="./static/view.html"
-            seamless
-            width="100%"
-            height="100%"
-          ></iframe>  */}
+        <div className="runjs__preview" style={{height: isConsoleOpen ? "68vh" : "89vh", }} >
+             
 
 <div className="preview-tabs" style={{borderBottom: "1px solid gray"}}>
             <button
@@ -282,25 +274,25 @@ const Compiler = () => {
               </div>
             )}
             {previewMode === "browser" && (
-              <>
-              {!iframeLoaded && (
-                <div className="iframe-placeholder">
-                  <p>JavaScript file will render here.</p>
-                </div>
-              )}
-              <iframe
-                onLoad={() => {
-                  setIframeLoaded(true);
-                  onLoad();
-                }}
-                id="preview"
-                style={{ backgroundColor: "#5555", color: "white", height: "63vh" }}
-                src="./static/view.html"
-                seamless
-                width="100%"
-              ></iframe>
-            </>
-          )}
+             <>
+             {!iframeLoaded && (
+               <div className="iframe-placeholder">
+                 <p>JavaScript file will render here.</p>
+               </div>
+             )}
+             <iframe
+               onLoad={() => {
+                 setIframeLoaded(true);
+                 onLoad();
+               }}
+               id="preview"
+               style={{ backgroundColor: "#5555", color: "white", height:isConsoleOpen ? "63vh": "83vh" }}
+               src="./static/view.html"
+               seamless
+               width="100%"
+             ></iframe>
+           </>
+        )}
           </div>
         </div>
       </div>
@@ -346,14 +338,19 @@ const Compiler = () => {
             />
           </div>
         </div>
-        {isTestOpen && (
-          <div style={{ backgroundColor: "#5555", color: "white", padding: "15px"}}>
+        {/* {isTestOpen && (
+          <div style={{ backgroundColor: "#5555", color: "white", padding: "15px"}}> */}
             {/* Your test content goes here */}
+            <div style={{ padding: "10px" }}>
+          {testResults.map((result, index) => (
+            <div className="testcases" key={index}>{result}</div>
+          ))}
+        </div>
             {showConfetti && <ConfettiCanvas />}
-          </div>
-        )}
+          {/* </div>
+        )} */}
       </div>
-      <div className="runjs__console" id="console"  
+      {/* <div className="runjs__console" id="console"  
        style={{
         height: isConsoleOpen ? "260px" : "50px", // Adjust height as needed
         transition: "height 0.5s ease",
@@ -361,14 +358,14 @@ const Compiler = () => {
         left:"50%"
       }}
       >
-          <div style={{ padding: "10px" }}>
+        <div style={{ padding: "10px" }}>
           {testResults.map((result, index) => (
-            <div className="testcases" key={index}>{result ? result : <><p>X Write your HTML, CSS, and JavaScript code.</p>
-                <p>2. Click on the "Run Code" button to see the output in the browser tab.</p>  </>}</div>
+            <div className="testcases" key={index}>{result}</div>
           ))}
         </div>
+          
            {showConfetti && <ConfettiCanvas />}
-        </div>
+        </div> */}
       <div className="runjs__console" id="console"  style={{
         height: isConsoleOpen ? "260px" : "50px", // Adjust height as needed
         transition: "height 0.5s ease",
@@ -388,13 +385,14 @@ const Compiler = () => {
             borderBottom: "1px solid grey",
             cursor: "pointer"
           }}
-          onClick={toggleConsole}
+         
         >
           <h1 className="headingnew">Console</h1>
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
             <MdRefresh size={"1.5rem"} />
             <FaTrash  onClick={clearLogs} color="red" size={"1.2rem"} />
             <FaArrowDown
+             onClick={toggleConsole}
               style={{
                 transform: isConsoleOpen ? "rotate(0deg)" : "rotate(180deg)",
                 transition: "transform 0.3s"

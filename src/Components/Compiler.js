@@ -86,17 +86,19 @@ const Compiler = () => {
     preview.write(`
       ${lib}${html}
       <script type="text/babel" data-presets="react">
-          // Override console methods in the iframe
-          const originalConsoleLog = console.log;
-          const originalConsoleError = console.error;
-          console.log = (...args) => {
-          window.parent.postMessage({ type: 'log', data: args.join(' ') }, '*');
-            originalConsoleLog.apply(console, args);
-          };
-          console.error = (...args) => {
-          window.parent.postMessage({ type: 'error', data: args.join(' ') }, '*');
-            originalConsoleError.apply(console, args);
-          };
+     if (!window.consoleOverridden) {
+    const originalIframeConsoleLog = console.log;
+    const originalIframeConsoleError = console.error;
+    console.log = (...args) => {
+      window.parent.postMessage({ type: 'log', data: args.join(' ') }, '*');
+      originalIframeConsoleLog.apply(console, args);
+    };
+    console.error = (...args) => {
+      window.parent.postMessage({ type: 'error', data: args.join(' ') }, '*');
+      originalIframeConsoleError.apply(console, args);
+    };
+    window.consoleOverridden = true;
+  }
             ${js}
       </script>
     `);
@@ -123,7 +125,7 @@ const Compiler = () => {
   };
 
   const onRun = useCallback(() => {
-    let iframe = document.getElementById("preview");
+    // let iframe = document.getElementById("preview");
     clearLogs();
     onLoad();
     setShowConfetti(true);

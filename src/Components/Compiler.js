@@ -9,6 +9,7 @@ import { FaArrowDown, FaCss3, FaHtml5, FaRunning, FaTrash } from "react-icons/fa
 import { MdArrowForwardIos, MdRefresh } from "react-icons/md";
 import { DiJavascript } from "react-icons/di";
 import ConfettiCanvas from "./ConfettiCanvas";
+import Loader from "./Loader";
 
 const Compiler = () => {
   const [mode, setMode] = useState("js");
@@ -17,6 +18,10 @@ const Compiler = () => {
   const [isMaximized, setIsMaximized] = useState(false);
   const [isTestOpen, setIsTestOpen] = useState(true);
   const [isConsoleOpen, setIsConsoleOpen] = useState(true);
+  const [isPreviewLoading, setIsPreviewLoading] = useState(true); // Loading state for preview
+  const [isEditorLoading, setIsEditorLoading] = useState(true); // Loading state for editor
+  const [isConsoleLoading, setIsConsoleLoading] = useState(true); // Loading state for console
+
 
 
 
@@ -25,6 +30,14 @@ const Compiler = () => {
   const clearLogs = () => {
     setLogs([]);
   };
+
+
+  // useEffect(() => {
+  //   // Simulate loading time
+  //   setTimeout(() => {
+  //     setIsEditorLoading(false);
+  //   }, 3000); // 2 seconds loading time
+  // }, []);
 
   const toggleMaximize = () => {
     setIsMaximized((prev) => !prev);
@@ -105,7 +118,10 @@ const Compiler = () => {
       <link rel="stylesheet" href="./static/view.css">
       <style>${css}</style>
     `;
-    iframe.style.display = "block";
+      iframe.style.display = "block";
+      setIsPreviewLoading(false);
+      // setIsEditorLoading(false);
+      // setIsConsoleLoading(false
   }, []);
 
   const pStyle = {
@@ -151,6 +167,10 @@ const Compiler = () => {
       "css",
       init.css
     );
+
+    setIsEditorLoading(false);
+    setIsConsoleLoading(false);
+
     onRun();
   }, [onRun]);
 
@@ -189,7 +209,9 @@ const Compiler = () => {
               </div>
             </div>
           </div>
+
           <div className="editor-wrap">
+                        {isEditorLoading && <Loader/>}
             <div
               id="html-wrap"
               style={{
@@ -226,6 +248,7 @@ const Compiler = () => {
         </div>
 
         <div className="runjs__preview">
+                  {isPreviewLoading && <Loader />}
           <iframe
             onLoad={onLoad}
             id="preview"
@@ -239,18 +262,11 @@ const Compiler = () => {
       </div>
       <div className="runjs__console" id="console">
         <div
-          style={{
-            backgroundColor: "#5555",
-            color: "white",
-            display: "flex",
-            padding: "15px",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            borderRight: "1px solid grey",
-            borderBottom: "1px solid grey",
-            cursor: "pointer"
-          }}
-          onClick={toggleTest}
+         style={{
+          height: isTestOpen ? "260px" : "50px", // Adjust height as needed
+          transition: "height 0.5s ease",
+          overflow: "hidden",
+        }
         >
           <h1 className="headingnew">Test (0/2)</h1>
           <div style={{ display: "flex", alignItems: "center" }}>
@@ -272,17 +288,22 @@ const Compiler = () => {
                 transform: isTestOpen ? "rotate(0deg)" : "rotate(180deg)",
                 transition: "transform 0.3s"
               }}
+              onClick={toggleTest}
             />
           </div>
         </div>
-        {isTestOpen && (
-          <div style={{ backgroundColor: "#5555", color: "white", padding: "15px"}}>
-            {/* Your test content goes here */}
+     
             {showConfetti && <ConfettiCanvas />}
-          </div>
-        )}
+          
       </div>
-      <div className="runjs__console" id="console"  style={{left:"50%"}} >
+      <div className="runjs__console" id="console"  
+       style={{
+        height: isConsoleOpen ? "260px" : "50px", // Adjust height as needed
+        transition: "height 0.5s ease",
+        overflow: "hidden",
+        left:"50%"
+      }}
+      >
         <div
           style={{
             backgroundColor: "#5555",
@@ -296,13 +317,14 @@ const Compiler = () => {
             borderBottom: "1px solid grey",
             cursor: "pointer"
           }}
-          onClick={toggleConsole}
+         
         >
           <h1 className="headingnew">Console</h1>
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
             <MdRefresh size={"1.5rem"} />
             <FaTrash  onClick={clearLogs} color="red" size={"1.2rem"} />
             <FaArrowDown
+             onClick={toggleConsole}
               style={{
                 transform: isConsoleOpen ? "rotate(0deg)" : "rotate(180deg)",
                 transition: "transform 0.3s"
@@ -310,14 +332,17 @@ const Compiler = () => {
               />
           </div>
         </div>
-        {isConsoleOpen && (
-          <div style={{ backgroundColor: "#5555", color: "white", padding: "15px", display:"flex" , flexDirection:"column",justifyContent:"space-between"}}>
-             {logs.map((log, index) => (
-            <div key={index}>
-              {log !== "" ? <p style={pStyle}>{log}</p> : null}
-            </div>
-          ))}
-          </div>
+       {isConsoleLoading ? (
+          <Loader />
+        ) : (
+          logs.map((log, index) => (
+            <p key={index}>
+              {log !==
+              "Warning: ReactDOM.render is no longer supported in React 18. Use createRoot instead. Until you switch to the new API, your app will behave as if it's running React 17. Learn more: https://reactjs.org/link/switch-to-createroot"
+                ? log
+                : ""}
+            </p>
+          ))
         )}
       </div>
     </div>

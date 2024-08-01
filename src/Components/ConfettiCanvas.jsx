@@ -102,7 +102,7 @@ const ConfettiCanvas = () => {
         bottom: 10, // Align canvas to the bottom
         left: 10, // Align canvas to the left
         width: '100vw',
-        height: '50vh',
+        height: '40vh',
         pointerEvents: 'none',
         zIndex: 1000,
       }}

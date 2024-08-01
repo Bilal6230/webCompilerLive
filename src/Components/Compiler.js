@@ -9,7 +9,6 @@ import { FaArrowDown, FaCss3, FaFileAlt, FaHtml5, FaRunning, FaTrash } from "rea
 import { MdArrowForwardIos, MdBrowserUpdated, MdRefresh } from "react-icons/md";
 import { DiJavascript } from "react-icons/di";
 import ConfettiCanvas from "./ConfettiCanvas";
-import Loader from "./Loader";
 
 const Compiler = () => {
   const [mode, setMode] = useState("js");
@@ -30,14 +29,6 @@ const Compiler = () => {
     setLogs([]);
     setTestResults([]);
   };
-
-
-  // useEffect(() => {
-  //   // Simulate loading time
-  //   setTimeout(() => {
-  //     setIsEditorLoading(false);
-  //   }, 3000); // 2 seconds loading time
-  // }, []);
 
   const toggleMaximize = () => {
     setIsMaximized((prev) => !prev);
@@ -102,17 +93,19 @@ const Compiler = () => {
     preview.write(`
       ${lib}${html}
       <script type="text/babel" data-presets="react">
-          // Override console methods in the iframe
-          const originalConsoleLog = console.log;
-          const originalConsoleError = console.error;
-          console.log = (...args) => {
-          window.parent.postMessage({ type: 'log', data: args.join(' ') }, '*');
-            originalConsoleLog.apply(console, args);
-          };
-          console.error = (...args) => {
-          window.parent.postMessage({ type: 'error', data: args.join(' ') }, '*');
-            originalConsoleError.apply(console, args);
-          };
+     if (!window.consoleOverridden) {
+    const originalIframeConsoleLog = console.log;
+    const originalIframeConsoleError = console.error;
+    console.log = (...args) => {
+      window.parent.postMessage({ type: 'log', data: args.join(' ') }, '*');
+      originalIframeConsoleLog.apply(console, args);
+    };
+    console.error = (...args) => {
+      window.parent.postMessage({ type: 'error', data: args.join(' ') }, '*');
+      originalIframeConsoleError.apply(console, args);
+    };
+    window.consoleOverridden = true;
+  }
             ${js}
       </script>
     `);
@@ -142,7 +135,7 @@ const Compiler = () => {
   };
 
   const onRun = useCallback(() => {
-    let iframe = document.getElementById("preview");
+    // let iframe = document.getElementById("preview");
     clearLogs();
     onLoad();
     setShowConfetti(true);
@@ -213,7 +206,6 @@ const Compiler = () => {
               </div>
             </div>
           </div>
-
           <div className="editor-wrap">
                         {/* {isEditorLoading && <Loader/>} */}
             <div
@@ -351,13 +343,15 @@ const Compiler = () => {
                 transform: isTestOpen ? "rotate(0deg)" : "rotate(180deg)",
                 transition: "transform 0.3s"
               }}
-
             />
           </div>
         </div>
-     
+        {isTestOpen && (
+          <div style={{ backgroundColor: "#5555", color: "white", padding: "15px"}}>
+            {/* Your test content goes here */}
             {showConfetti && <ConfettiCanvas />}
-          
+          </div>
+        )}
       </div>
       <div className="runjs__console" id="console"  
        style={{
@@ -394,14 +388,13 @@ const Compiler = () => {
             borderBottom: "1px solid grey",
             cursor: "pointer"
           }}
-         
+          onClick={toggleConsole}
         >
           <h1 className="headingnew">Console</h1>
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
             <MdRefresh size={"1.5rem"} />
             <FaTrash  onClick={clearLogs} color="red" size={"1.2rem"} />
             <FaArrowDown
-             onClick={toggleConsole}
               style={{
                 transform: isConsoleOpen ? "rotate(0deg)" : "rotate(180deg)",
                 transition: "transform 0.3s"
@@ -409,18 +402,15 @@ const Compiler = () => {
               />
           </div>
         </div>
-       {/* {isConsoleLoading ? (
-          <Loader />
-        ) : ( */}{
-          logs.map((log, index) => (
-            <p key={index}>
-              {log !==
-              "Warning: ReactDOM.render is no longer supported in React 18. Use createRoot instead. Until you switch to the new API, your app will behave as if it's running React 17. Learn more: https://reactjs.org/link/switch-to-createroot"
-                ? log
-                : ""}
-            </p>
+        {/* {isConsoleOpen && (
+          <div style={{ backgroundColor: "#5555", color: "white", padding: "15px", display:"flex" , flexDirection:"column",justifyContent:"space-between"}}> */}
+             {logs.map((log, index) => (
+            <div key={index}>
+              {log !== "" ? <p style={pStyle}>{log}</p> : null}
+            </div>
           ))}
-        {/* )} */}
+          {/* </div>
+        )} */}
       </div>
     </div>
   );

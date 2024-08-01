@@ -5,8 +5,8 @@ import "./bulma.min.css";
 import "./index.css";
 import { initCodeEditor } from "./lib";
 import Navbar from "./Navbbar";
-import { FaArrowDown, FaCss3, FaHtml5, FaRunning, FaTrash } from "react-icons/fa";
-import { MdArrowForwardIos, MdRefresh } from "react-icons/md";
+import { FaArrowDown, FaCss3, FaFileAlt, FaHtml5, FaRunning, FaTrash } from "react-icons/fa";
+import { MdArrowForwardIos, MdBrowserUpdated, MdRefresh } from "react-icons/md";
 import { DiJavascript } from "react-icons/di";
 import ConfettiCanvas from "./ConfettiCanvas";
 import Loader from "./Loader";
@@ -14,14 +14,13 @@ import Loader from "./Loader";
 const Compiler = () => {
   const [mode, setMode] = useState("js");
   const [logs, setLogs] = useState([]);
+  const [testResults, setTestResults] = useState([ ]); 
   const [showConfetti, setShowConfetti] = useState(false);
   const [isMaximized, setIsMaximized] = useState(false);
   const [isTestOpen, setIsTestOpen] = useState(true);
   const [isConsoleOpen, setIsConsoleOpen] = useState(true);
-  const [isPreviewLoading, setIsPreviewLoading] = useState(true); // Loading state for preview
-  const [isEditorLoading, setIsEditorLoading] = useState(true); // Loading state for editor
-  const [isConsoleLoading, setIsConsoleLoading] = useState(true); // Loading state for console
-
+  const [previewMode, setPreviewMode] = useState("browser");
+  const [iframeLoaded, setIframeLoaded] = useState(false); 
 
 
 
@@ -29,6 +28,7 @@ const Compiler = () => {
   const toggleConsole = () => setIsConsoleOpen(!isConsoleOpen);
   const clearLogs = () => {
     setLogs([]);
+    setTestResults([]);
   };
 
 
@@ -50,14 +50,17 @@ const Compiler = () => {
     console.log = (...args) => {
         const message = args.join(" ");
         setLogs((prevLogs) => [...prevLogs, message]);
+        setTestResults((prevResults) => [...prevResults, `Console log: ${message}`]);
         originalConsoleLog.apply(console, args);
     };
 
+    console.log(testResults)
     console.error = (...args) => {
         const message = args.join(" ");
         setLogs((prevLogs) => [...prevLogs, message]);
         originalConsoleError.apply(console, args);
     };
+  
 
     return () => {
       console.log = originalConsoleLog;
@@ -143,6 +146,7 @@ const Compiler = () => {
     clearLogs();
     onLoad();
     setShowConfetti(true);
+    setIframeLoaded(true);
     setTimeout(() => setShowConfetti(false), 3000);
   }, [onLoad]);
 
@@ -178,7 +182,7 @@ const Compiler = () => {
     <div className="runjs">
       <Navbar />
       <div className="mainbody">
-        <div className={`runjs__editor ${isMaximized ? 'maximized' : ''}`}>
+        <div className={`runjs__editor ${isMaximized ? 'maximized' : ''}`} >
           <div className="tabs">
             <div
               className={`tab ${mode === "html" ? "active" : ""}`}
@@ -217,7 +221,7 @@ const Compiler = () => {
               style={{
                 visibility: mode === "html" ? "visible" : "hidden",
                 marginTop: "60px",
-                  height:"600px"
+                  height:"100vh"
               }}
             >
               <textarea className="form-control" id="html"></textarea>
@@ -257,18 +261,76 @@ const Compiler = () => {
             seamless
             width="100%"
             height="100%"
-          ></iframe>
+          ></iframe> 
+
+<div className="preview-tabs" style={{borderBottom: "1px solid gray"}}>
+            <button
+              className={`tab ${previewMode === "instructions" ? "active" : ""}`}
+              onClick={() => setPreviewMode("instructions")}
+              style={{padding:"15px", color:"white",borderRadius:"6px"}}
+            >
+            <FaFileAlt color="lightblue" />  Instructions
+            </button>
+            <button
+              className={`tab ${previewMode === "browser" ? "active" : ""}`}
+              onClick={() => setPreviewMode("browser")}
+              style={{padding:"15px", color:"white",borderRadius:"6px"}}
+            >
+             <MdBrowserUpdated color="yellow" size={"1.5rem"}/>  Browser
+            </button>
+          </div>
+          <div className="preview-content">
+            {previewMode === "instructions" && (
+              <div className="instructions">
+                <h2>  Instructions</h2>
+                <p>Here are the instructions for the task...</p>
+                <p>1. Write your HTML, CSS, and JavaScript code.</p>
+                <p>2. Click on the "Run Code" button to see the output in the browser tab.</p>
+                <p>3. Check the console logs and test cases below for feedback.</p>
+              </div>
+            )}
+            {previewMode === "browser" && (
+              <>
+              {!iframeLoaded && (
+                <div className="iframe-placeholder">
+                  <p>JavaScript file will render here.</p>
+                </div>
+              )}
+              <iframe
+                onLoad={() => {
+                  setIframeLoaded(true);
+                  onLoad();
+                }}
+                id="preview"
+                style={{ backgroundColor: "#5555", color: "white", height: "63vh" }}
+                src="./static/view.html"
+                seamless
+                width="100%"
+              ></iframe>
+            </>
+          )}
+          </div>
         </div>
       </div>
-      <div className="runjs__console" id="console">
+      <div className="runjs__console" id="console"  style={{
+        height: isTestOpen ? "260px" : "50px", // Adjust height as needed
+        transition: "height 0.5s ease",
+        overflow: "hidden",
+      }}>
         <div
-         style={{
-          height: isTestOpen ? "260px" : "50px", // Adjust height as needed
-          transition: "height 0.5s ease",
-          overflow: "hidden",
-        }
+          style={{
+            backgroundColor: "#5555",
+            color: "white",
+            display: "flex",
+            padding: "15px",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            borderRight: "1px solid grey",
+            borderBottom: "1px solid grey",
+            cursor: "pointer"
+          }}
         >
-          <h1 className="headingnew">Test (0/2)</h1>
+          <h1 className="headingnew">Test ({testResults.length}/{testResults.length})</h1>
           <div style={{ display: "flex", alignItems: "center" }}>
             <button
               style={{
@@ -284,11 +346,12 @@ const Compiler = () => {
               <MdArrowForwardIos /> Run Code
             </button>
             <FaArrowDown
+            onClick={toggleTest}
               style={{
                 transform: isTestOpen ? "rotate(0deg)" : "rotate(180deg)",
                 transition: "transform 0.3s"
               }}
-              onClick={toggleTest}
+
             />
           </div>
         </div>
@@ -304,6 +367,20 @@ const Compiler = () => {
         left:"50%"
       }}
       >
+          <div style={{ padding: "10px" }}>
+          {testResults.map((result, index) => (
+            <div className="testcases" key={index}>{result ? result : <><p>X Write your HTML, CSS, and JavaScript code.</p>
+                <p>2. Click on the "Run Code" button to see the output in the browser tab.</p>  </>}</div>
+          ))}
+        </div>
+           {showConfetti && <ConfettiCanvas />}
+        </div>
+      <div className="runjs__console" id="console"  style={{
+        height: isConsoleOpen ? "260px" : "50px", // Adjust height as needed
+        transition: "height 0.5s ease",
+        left:"50%",
+        overflow: "hidden",
+      }} >
         <div
           style={{
             backgroundColor: "#5555",

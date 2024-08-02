@@ -1,36 +1,36 @@
 :root {
 	--bgcolor: #212424;
 	--cardColor: #212424;
-  }
-  
-  .react-tooltip-lite {
+}
+
+.react-tooltip-lite {
 	background: #000;
 	color: white;
-  }
-  
-  .react-tooltip-lite-arrow {
+}
+
+.react-tooltip-lite-arrow {
 	border-color: #000;
-  }
-  
-  .center {
+}
+
+.center {
 	display: flex;
 	align-items: center;
-  }
-  
-  input {
+}
+
+input {
 	background: #94a0ad;
 	border: none;
 	height: 32px;
 	border-radius: 10px;
 	padding: 3px 10px;
 	color: #fff;
-  }
-  
-  input:focus {
+}
+
+input:focus {
 	outline: none;
-  }
-  
-  .tool-icon {
+}
+
+.tool-icon {
 	color: rgba(255, 255, 255, 0.75);
 	width: 32px;
 	height: 32px;
@@ -40,44 +40,44 @@
 	cursor: pointer;
 	align-items: center;
 	justify-content: center;
-  }
-  
-  .tool-icon.selected,
-  .tool-icon:hover {
+}
+
+.tool-icon.selected,
+.tool-icon:hover {
 	background: #535a63;
-  }
-  
-  .cm-s-material .CodeMirror-gutters,
-  .cm-s-material.CodeMirror {
+}
+
+.cm-s-material .CodeMirror-gutters,
+.cm-s-material.CodeMirror {
 	background: var(--cardColor) !important;
-  }
-  
-  .cm-s-material.CodeMirror {
+}
+
+.cm-s-material.CodeMirror {
 	border-radius: 8px;
-  }
-  
-  .checkbox {
+}
+
+.checkbox {
 	margin-left: 20px;
 	display: flex;
 	align-items: center;
 	color: #999;
-  }
-  
-  .log-set {
+}
+
+.log-set {
 	width: 250px;
 	flex-shrink: 0;
 	margin-right: 12px;
-  }
-  
-  .runjs {
+}
+
+.runjs {
 	position: absolute;
 	top: 0;
 	left: 0;
 	right: 0;
 	bottom: 0;
-  }
-  
-  .runjs__header {
+}
+
+.runjs__header {
 	position: absolute;
 	top: 10px;
 	left: 10px;
@@ -87,15 +87,15 @@
 	display: flex;
 	align-items: center;
 	background: var(--cardColor);
-  }
-  
-  .runjs__header .menu {
+}
+
+.runjs__header .menu {
 	display: flex;
 	align-items: center;
 	justify-content: flex-end;
-  }
-  
-  .runjs__editor {
+}
+
+.runjs__editor {
 	position: absolute;
 	top: 62px;
 	left: 10px;
@@ -104,16 +104,17 @@
 	border-radius: 8px;
 	background: var(--cardColor);
 	transition: all 0.5s ease-in-out;
-  }
-  
-  .runjs__editor > div {
+}
+
+.runjs__editor>div {
 	position: absolute;
 	top: 0;
 	left: 0;
 	right: 0;
 	bottom: 0;
-  }
-  .iframe-placeholder {
+}
+
+.iframe-placeholder {
 	height: 63vh;
 	display: flex;
 	align-items: center;
@@ -121,10 +122,10 @@
 	background-color: #444;
 	color: white;
 	font-size: 1.2rem;
-  }
-  
-  
-  .runjs__preview {
+}
+
+
+.runjs__preview {
 	position: absolute;
 	top: 42px;
 	right: 5px;
@@ -134,9 +135,9 @@
 	width: 49.5%;
 	color: white;
 	background: var(--cardColor);
-  }
-  
-  .runjs__console {
+}
+
+.runjs__console {
 	position: absolute;
 	right: 5px;
 	height: 260px;
@@ -148,9 +149,9 @@
 	background: #5555;
 	color: white;
 	border-right: 1px solid grey;
-  }
-  
-  .runjs__console .log-wrap {
+}
+
+.runjs__console .log-wrap {
 	min-height: 28px;
 	display: flex;
 	align-items: flex-start;
@@ -158,50 +159,50 @@
 	color: rgba(255, 255, 255, 0.4);
 	margin: 5px 10px;
 	border-bottom: 1px solid #677585;
-  }
-  
-  .runjs__console .log-wrap .log-str {
+}
+
+.runjs__console .log-wrap .log-str {
 	flex: 1;
-  }
-  
-  .runjs__console .log-wrap .log-type__warn {
+}
+
+.runjs__console .log-wrap .log-type__warn {
 	width: 250px;
 	flex-shrink: 0;
 	margin-right: 12px;
 	color: orange;
-  }
-  
-  .runjs__console .log-wrap .log-type__log {
+}
+
+.runjs__console .log-wrap .log-type__log {
 	width: 250px;
 	flex-shrink: 0;
 	margin-right: 12px;
 	color: #57b99d;
-  }
-  
-  .runjs__console .log-wrap .log-type__info {
+}
+
+.runjs__console .log-wrap .log-type__info {
 	width: 250px;
 	flex-shrink: 0;
 	margin-right: 12px;
 	color: #5caed6;
-  }
-  
-  .runjs__console .log-wrap .log-type__error {
+}
+
+.runjs__console .log-wrap .log-type__error {
 	width: 250px;
 	flex-shrink: 0;
 	margin-right: 12px;
 	color: #e0606f;
-  }
-  
-  .tabs {
+}
+
+.tabs {
 	display: flex;
 	flex-direction: row;
 	height: 40px;
 	justify-content: flex-start;
 	cursor: pointer;
 	margin-bottom: 10px;
-  }
-  
-  .tab {
+}
+
+.tab {
 	font-size: 17px;
 	padding: 10px 20px;
 	border: 1px solid #0a0a0a;
@@ -210,82 +211,86 @@
 	font-weight: 500;
 	color: grey;
 	text-align: center;
-  }
-  
-  .tab.active {
+}
+
+.tab.active {
 	background-color: #5555;
 	color: #ffffff;
 	border-bottom: none;
 	font-weight: bold;
-  }
-  
-  .editor-wrap {
+}
+
+.editor-wrap {
 	padding: 0;
 	height: 0px;
 	border-top: none;
-  }
-  
-  textarea {
+}
+
+textarea {
 	width: 100%;
 	height: 200px;
 	border: none;
 	padding: 10px;
-  }
+}
 
-  .testcases{
+.testcases {
 	color: white;
 	font-size: 17px;
 	font-family: 'Times New Roman', Times, serif;
 	text-transform: capitalize;
 	border-bottom: 1px solid rgb(102, 102, 102);
-	&::before{
-	content:"✅" ;
+
+	&::before {
+		content: "✅";
 
 	}
-  }
-  
-  .headingnew {
+}
+
+.headingnew {
 	font-weight: 800;
 	font-size: 18px;
-  }
-  
-  @media (max-width: 650px) {
+}
+
+@media (max-width: 650px) {
 	.runjs__preview {
-	  margin-top: 356px;
-	  width: 100%;
-	  left: 10px;
+		margin-top: 356px;
+		width: 100%;
+		left: 10px;
 	}
+
 	.runjs__editor {
-	  width: 100%;
+		width: 100%;
 	}
-  }
-  
-  @media (max-width: 430px) {
+}
+
+@media (max-width: 430px) {
 	.runjs__preview {
-	  margin-top: 356px;
-	  width: 100%;
-	  left: 10px;
+		margin-top: 356px;
+		width: 100%;
+		left: 10px;
 	}
+
 	.runjs__editor {
-	  width: 100%;
+		width: 100%;
 	}
+
 	.headingnew {
-	  font-size: 12px;
+		font-size: 12px;
 	}
-  }
-  
-  .mainbody {
+}
+
+.mainbody {
 	display: flex;
 	flex-direction: row;
 	justify-content: space-evenly;
-  }
+}
 
-  .dropdown {
+.dropdown {
 	position: relative;
 	display: inline-block;
-  }
-  
-  .dropdown-button {
+}
+
+.dropdown-button {
 	background: none;
 	border: none;
 	display: flex;
@@ -293,9 +298,9 @@
 	color: white;
 	align-items: center;
 	cursor: pointer;
-  }
-  
-  .dropdown-menu {
+}
+
+.dropdown-menu {
 	display: none;
 	position: absolute;
 	top: 100%;
@@ -304,32 +309,63 @@
 	color: black;
 	box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 	border-radius: 4px;
-	z-index: 1000; /* Ensure it's above other content */
-  }
-  
-  .dropdown-menu.open {
+	z-index: 1000;
+	/* Ensure it's above other content */
+}
+
+.dropdown-menu.open {
 	display: block;
 	margin-top: -40px;
 	margin-left: 30px;
-  }
-  
-  .dropdown-menu button {
+}
+
+.dropdown-menu button {
 	background: none;
 	border: none;
 	padding: 10px;
 	cursor: pointer;
 	width: 100%;
 	text-align: left;
-  }
-  
-  
-  .maximized {
-	position: absolute; /* Change to fixed positioning for fullscreen effect */
+}
+
+
+.maximized {
+	position: absolute;
+	/* Change to fixed positioning for fullscreen effect */
 	top: 0;
 	left: 0;
 	width: 100vw;
 	height: 100vh;
 	margin-top: 50px;
-	z-index: 1000; /* Ensure it's above other elements */
-  }
-  
+	z-index: 1000;
+	/* Ensure it's above other elements */
+}
+
+ul {
+	height: 123px;
+	overflow-y: scroll;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	padding-left: 20px;
+	padding-top: 16px;
+	padding-bottom: 16px;
+}
+
+li {
+	list-style: none;
+	padding-left: 0px;
+	padding-right: 15px;
+	margin-bottom: 15px;
+	min-height: 25px;
+}
+
+.test-name-container {
+	font-weight: 500;
+	padding-top: 2px;
+	color: var(--p-color);
+	display: flex;
+}
+
+.test-name {
+    margin-left: 10px;
+}

@@ -369,3 +369,9 @@ li {
 .test-name {
     margin-left: 10px;
 }
+.solution-button{
+	font-size: 18px;
+}
+.solution-button:hover{
+	cursor: pointer;
+}

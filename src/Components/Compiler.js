@@ -10,6 +10,7 @@ import { FaArrowDown, FaCss3, FaFileAlt, FaHtml5, FaTimes, FaTrash } from "react
 import { MdArrowForwardIos, MdBrowserUpdated, MdRefresh } from "react-icons/md";
 import { DiJavascript } from "react-icons/di";
 import ConfettiCanvas from "./ConfettiCanvas";
+import SolutionButton from "./Solotion";
 
 const Compiler = () => {
   const [mode, setMode] = useState("html");
@@ -338,6 +339,7 @@ const Compiler = () => {
         >
           <h1 className="headingnew">Test (0/2)</h1>
           <div style={{ display: "flex", alignItems: "center" }}>
+            <SolutionButton /> 
             <button
               style={{
                 backgroundColor: "#65c8ff",

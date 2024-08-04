@@ -53,7 +53,7 @@ input:focus {
 }
 
 .cm-s-material.CodeMirror {
-	border-radius: 8px;
+	border-radius: 0;
 }
 
 .checkbox {
@@ -97,13 +97,14 @@ input:focus {
 
 .runjs__editor {
 	position: absolute;
-	top: 62px;
-	left: 10px;
+	top: 52px;
+	left: 0;
 	bottom: 0px;
 	width: 50%;
-	border-radius: 8px;
+	border-radius: 0;
 	background: var(--cardColor);
 	transition: all 0.5s ease-in-out;
+	height: calc(-322px + 100vh);
 }
 
 .runjs__editor>div {
@@ -127,28 +128,28 @@ input:focus {
 
 .runjs__preview {
 	position: absolute;
-	top: 42px;
-	right: 5px;
-	bottom: 260px;
-	border-radius: 8px;
+	top: 55px;
+	right: 0;
+	bottom: 0;
+	border-radius: 0;
 	border-left: 1px solid rgb(190, 184, 184);
-	width: 49.5%;
+	width: 50%;
 	color: white;
 	background: var(--cardColor);
 }
 
 .runjs__console {
-	position: absolute;
-	right: 5px;
-	height: 260px;
-	bottom: 10px;
-	left: 4px;
-	border-radius: 4px;
-	width: 49.5%;
-	overflow-y: auto;
-	background: #5555;
-	color: white;
-	border-right: 1px solid grey;
+    position: absolute;
+    right: 5px;
+    height: 260px;
+    bottom: 0;
+    left: 0;
+    border-radius: 0;
+    width: 50%;
+    overflow-y: auto;
+    background: #5555;
+    color: white;
+    border-right: 1px solid grey;
 }
 
 .runjs__console .log-wrap {
@@ -200,17 +201,23 @@ input:focus {
 	justify-content: flex-start;
 	cursor: pointer;
 	margin-bottom: 10px;
+	
 }
+.preview-tabs{
+	display: flex;
 
+}
 .tab {
-	font-size: 17px;
+	font-size: 14px;
 	padding: 10px 20px;
 	border: 1px solid #0a0a0a;
 	border-bottom: none;
-	background-color: #0a0a0a;
 	font-weight: 500;
 	color: grey;
 	text-align: center;
+	margin: 0 5px 0 0px;
+	display: flex;
+
 }
 
 .tab.active {
@@ -218,8 +225,21 @@ input:focus {
 	color: #ffffff;
 	border-bottom: none;
 	font-weight: bold;
-}
+	border-top: 2px solid #65c8ff;
 
+}
+.tab:hover{
+	color: #65c8ff !important;
+	border-bottom: 2px solid #65c8ff;
+	cursor:pointer;
+}
+.tab:hover svg{
+	color: #65c8ff !important; 
+}
+.output_tab_active{
+	color: #65c8ff !important;
+	border-bottom: 2px solid #65c8ff
+}
 .editor-wrap {
 	padding: 0;
 	height: 0px;
@@ -248,7 +268,7 @@ textarea {
 
 .headingnew {
 	font-weight: 800;
-	font-size: 18px;
+	font-size: 14px;
 }
 
 @media (max-width: 650px) {
@@ -286,8 +306,9 @@ textarea {
 }
 
 .dropdown {
-	position: relative;
-	display: inline-block;
+	position: absolute;
+	right: 0;
+	margin-right: 10px;
 }
 
 .dropdown-button {
@@ -295,9 +316,10 @@ textarea {
 	border: none;
 	display: flex;
 	justify-content: end;
-	color: white;
 	align-items: center;
 	cursor: pointer;
+	font-size: 18px;
+    color: #7a7a7a;	
 }
 
 .dropdown-menu {
@@ -370,8 +392,58 @@ li {
     margin-left: 10px;
 }
 .solution-button{
-	font-size: 18px;
+	font-size: 14px;
 }
 .solution-button:hover{
 	cursor: pointer;
+}
+.clipboard-notes-icon{
+	color: white !important;;
+	font-size: 20px;
+	line-height: 1;
+	margin-right: 5px;
+
+}
+.clipboard-notes-icon-active{
+	color: #65c8ff !important;;
+	font-size: 20px;
+}
+#title {
+    margin-top: 0px;
+    position: relative;
+    font-size: 2rem;
+	font-weight:600;
+}
+.preview-content{
+	background-color: #444;
+	height: calc(-372px + 100vh);
+}
+#instructions{
+	padding:15px;
+}
+#description {
+    font-size: 1rem;
+    line-height: 1.875;
+	font-weight: 600;
+    margin-top: 12px;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+    ::-webkit-scrollbar {
+        width: 8px;
+        height: .5rem;
+    }
+
+    ::-webkit-scrollbar-track {
+        background-color: #7a7a7a;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background-color: #4a4a4a;
+        border-radius: 0px
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background-color: #4a4a4a;
+    }
 }

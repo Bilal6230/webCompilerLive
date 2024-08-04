@@ -3,14 +3,20 @@ import Tooltip from "react-tooltip-lite";
 import init from "./init";
 import "./bulma.min.css";
 import "./index.css";
+import "./CodeMirror.css";
 import { initCodeEditor } from "./lib";
 import Navbar from "./Navbbar";
-import { FaArrowDown, FaCss3, FaFileAlt, FaHtml5, FaTimes, FaTrash } from "react-icons/fa";
+import { FaArrowDown, FaClipboardList, FaCss3, FaFileAlt, FaHtml5, FaTimes, FaTrash } from "react-icons/fa";
 
 import { MdArrowForwardIos, MdBrowserUpdated, MdRefresh } from "react-icons/md";
 import { DiJavascript } from "react-icons/di";
 import ConfettiCanvas from "./ConfettiCanvas";
 import SolutionButton from "./Solotion";
+import { IoIosArrowDown } from "react-icons/io";
+import { CgNotes } from "react-icons/cg";
+import { HiOutlineClipboardList } from "react-icons/hi";
+import { CiCreditCard2 } from "react-icons/ci";
+import { FaRegTrashCan } from "react-icons/fa6";
 
 const Compiler = () => {
   const [mode, setMode] = useState("html");
@@ -105,12 +111,12 @@ const Compiler = () => {
     } else {
       preview = iframe.document;
     }
-  
+
     let lib = ``;
     staticRef.current.lib.forEach((item) => {
       lib += `<script src="${item}"></script>`;
     });
-  
+
     preview.open();
     preview.write(`
       ${lib}${html}
@@ -142,7 +148,7 @@ const Compiler = () => {
     iframe.style.display = "block";
     setIsIframeLoading(false);
   }, []);
-  
+
   const onRun = useCallback(() => {
     const iframe = document.getElementById("preview");
     if (iframe && iframe.contentWindow) {
@@ -153,7 +159,7 @@ const Compiler = () => {
     setShowConfetti(true);
     setTimeout(() => setShowConfetti(false), 3000);
   }, [onLoad]);
-  
+
   const pStyle = {
     fontSize: '14px',
     fontFamily: '"Fira Code", monospace',
@@ -209,29 +215,29 @@ const Compiler = () => {
               className={`tab ${mode === "html" ? "active" : ""}`}
               onClick={() => handleTabClick("html")}
             >
-              <FaHtml5 color="ORANGE" size={"1.2rem"} /> HTML
+              Index.html
             </div>
             <div
               className={`tab ${mode === "css" ? "active" : ""}`}
               onClick={() => handleTabClick("css")}
             >
-              <FaCss3 color="blue" size={"1.2rem"} /> CSS
+              index.css
             </div>
             <div
               className={`tab ${mode === "js" ? "active" : ""}`}
               onClick={() => handleTabClick("js")}
             >
-              <DiJavascript color="yellow" size={"1.2rem"} /> index.js
+              index.js
             </div>
             <div className="dropdown">
               <button className="dropdown-button" onClick={toggleMaximize}>
-                <FaArrowDown />
+                <IoIosArrowDown />
               </button>
-              <div className={`dropdown-menu ${isMaximized ? 'open' : ''}`}>
+              {/* <div className={`dropdown-menu ${isMaximized ? 'open' : ''}`}>
                 <button onClick={toggleMaximize}>
                   {isMaximized ? 'Minimize' : 'Maximize'}
                 </button>
-              </div>
+              </div> */}
             </div>
           </div>
           <div className="editor-wrap">
@@ -239,8 +245,10 @@ const Compiler = () => {
               id="html-wrap"
               style={{
                 visibility: mode === "html" ? "visible" : "hidden",
-                marginTop: "60px",
-                height: "100vh"
+                marginTop: '0',
+                position: "absolute",
+                top: "50px",
+                width: "98.7%",
               }}
             >
               <textarea className="form-control" id="html"></textarea>
@@ -249,7 +257,10 @@ const Compiler = () => {
               id="css-wrap"
               style={{
                 visibility: mode === "css" ? "visible" : "hidden",
-                marginTop: mode === "css" ?"-808px" : '-580px',
+                marginTop: '0',
+                position: "absolute",
+                top: "50px",
+                width: "98.7%",
               }}
             >
               <textarea className="form-control" id="css"></textarea>
@@ -258,7 +269,10 @@ const Compiler = () => {
               id="js-wrap"
               style={{
                 visibility: mode === "js" ? "visible" : "hidden",
-                marginTop:  mode === "js" ? "-508px" : "-660px",
+                marginTop: '0',
+                position: "absolute",
+                top: "50px",
+                width: "98.7%",
               }}
             >
               <textarea className="form-control" id="js"></textarea>
@@ -266,32 +280,44 @@ const Compiler = () => {
           </div>
         </div>
 
-        <div className="runjs__preview" style={{ height: isConsoleOpen ? "68vh" : "89vh", }}>
+        <div className="runjs__preview" style={{ height: isConsoleOpen ? "calc(-326px + 100vh)" : "0", }}>
           <div className="preview-tabs" style={{ borderBottom: "1px solid gray" }}>
-            {/* <button
-              className={`tab ${previewMode === "instructions" ? "active" : ""}`}
+              <button
+              className={`tab ${previewMode === "instructions" ? "output_tab_active" : ""}`}
               onClick={() => setPreviewMode("instructions")}
-              style={{ padding: "15px", color: "white", borderRadius: "6px" }}
+              style={{ padding: "10px 15px", color: "white", backgroundColor:"#5555" }}
             >
-              <FaFileAlt color="lightblue" /> Instructions
-            </button> */}
+            <span className={`clipboard-notes-icon me-2 ${previewMode === "instructions" ? "clipboard-notes-icon-active" : ""}`} >
+              <HiOutlineClipboardList />
+            </span>
+            Instructions
+            </button>
             <button
-              className={`tab ${previewMode === "browser" ? "active" : ""}`}
-              onClick={() => setPreviewMode("browser")}
-              style={{ padding: "15px", color: "white", borderRadius: "6px" }}
+              className={`tab ${previewMode === "browser" ? "output_tab_active" : ""}`}
+              onClick={() => {setPreviewMode("browser"); onLoad();}}
+              style={{ padding: "10px 15px", color: "white", backgroundColor:"#5555" }}
             >
-              <MdBrowserUpdated color="yellow" size={"1.5rem"} /> Browser
+            <span className={`clipboard-notes-icon ${previewMode === "browser" ? "clipboard-notes-icon-active" : ""}`} >
+              <CiCreditCard2/> 
+              </span>
+              Browser
             </button>
           </div>
           <div className="preview-content">
             {previewMode === "instructions" && (
-              <div className="instructions">
-                <h2> Instructions</h2>
-                <p>Here are the instructions for the task...</p>
-                <p>1. Write your HTML, CSS, and JavaScript code.</p>
-                <p>2. Click on the "Run Code" button to see the output in the browser tab.</p>
-                <p>3. Check the console logs and test cases below for feedback.</p>
-              </div>
+               <div id="right-tabs-content" className="react">
+               <div id="instructions" className="tab-content tab-content--active">
+                 <h1 id="title">
+                   Uppercase a string
+                 </h1>
+                 <div id="description">
+                   <p>Complete the function sayLouder such that it makes the text in uppercase.</p>
+                 </div>
+               </div>
+               <div className="tab-content">
+                 <slot></slot>
+               </div>
+             </div>
             )}
             {previewMode === "browser" && (
               <>
@@ -309,125 +335,134 @@ const Compiler = () => {
                     onLoad();
                   }}
                   id="preview"
-                  style={{ backgroundColor: "white", color: "white", height: isConsoleOpen ? "63vh" : "83vh" }}
+                  style={{ backgroundColor: "white", color: "white", height: isConsoleOpen ? "calc(-361px + 100vh)" : "0" }}
                   src="./static/view.html"
                   seamless
                   width="100%"
-                ></iframe>
+                >
+
+                </iframe>
               </>
             )}
           </div>
         </div>
       </div>
-      <div className="runjs__console" id="console" style={{
-        height: isTestOpen ? "260px" : "50px",
-        transition: "height 0.5s ease",
-        overflow: "hidden",
+      <div className="runjs__console" id="test" style={{
+          height: isTestOpen ? "260px" : "50px",
+          transition: "height 0.5s ease",
+          overflow: "hidden",
       }}>
-        <div
+        <div className="align-items-center"
           style={{
             backgroundColor: "#5555",
             color: "white",
             display: "flex",
-            padding: "15px",
+            padding: "8.8px 15px",
             flexDirection: "row",
             justifyContent: "space-between",
             borderRight: "1px solid grey",
             borderBottom: "1px solid grey",
-            cursor: "pointer"
+            cursor: "pointer",
+            alignItems: "center",
+            fontSize: "14px",
+           
           }}
         >
           <h1 className="headingnew">Test (0/2)</h1>
           <div style={{ display: "flex", alignItems: "center" }}>
-            <SolutionButton /> 
+            <SolutionButton />
             <button
               style={{
                 backgroundColor: "#65c8ff",
-                padding: "8px",
+                padding: "4px 10px",
                 borderRadius: "6px",
                 outline: "none",
                 border: "none",
-                marginRight: "10px"
+                marginRight: "10px",
+                fontSize: '12px',
+
               }}
               onClick={onRun}
             >
               <MdArrowForwardIos /> Run Code
-            </button>
-            <FaArrowDown
+            </button> 
+            <IoIosArrowDown
               onClick={toggleTest}
               style={{
                 transform: isTestOpen ? "rotate(0deg)" : "rotate(180deg)",
-                transition: "transform 0.3s"
+                transition: "transform 0.3s",
+                color:"#7a7a7a"
               }}
             />
           </div>
         </div>
         <div style={{ padding: "10px" }}>
-  <ul>
-    <li>
+          <ul style={{overflow:"hidden"}}>
+            <li>
       <div className="test-name-container" style={{ display: "flex", alignItems: "center", marginBottom: "10px" }}>
         <button className="clear-done" style={{
-          background: "none",
-          border: "none",
-          cursor: "pointer",
-          padding: "0",
+                    background: "none",
+                    border: "none",
+                    cursor: "pointer",
+                    padding: "0",
           marginRight: "10px"
         }}>
-          <FaTimes size={20} color="grey" />
-        </button>
-        <div className="test-name">sayLouder returns a string</div>
-      </div>
-      <div className="error-message"></div>
-    </li>
-    <li>
+                  <FaTimes size={20} color="grey" />
+                </button>
+                <div className="test-name">sayLouder returns a string</div>
+              </div>
+              <div className="error-message"></div>
+            </li>
+            <li>
       <div className="test-name-container" style={{ display: "flex", alignItems: "center", marginBottom: "10px" }}>
         <button className="clear-done" style={{
-          background: "none",
-          border: "none",
-          cursor: "pointer",
-          padding: "0",
+                    background: "none",
+                    border: "none",
+                    cursor: "pointer",
+                    padding: "0",
           marginRight: "10px"
         }}>
-          <FaTimes size={20} color="grey" />
-        </button>
+                  <FaTimes size={20} color="grey" />
+                </button>
         <div className="test-name">sayLouder returns uppercased version</div>
-      </div>
-      <div className="error-message"></div>
-    </li>
-  </ul>
-</div>
+              </div>
+              <div className="error-message"></div>
+            </li>
+          </ul>
+        </div>
 
         {showConfetti && <ConfettiCanvas />}
       </div>
       <div className="runjs__console" id="console" style={{
-        height: isConsoleOpen ? "260px" : "50px",
-        transition: "height 0.5s ease",
-        left: "50%",
-        overflow: "hidden",
+          height: isConsoleOpen ? "260px" : "50px",
+          transition: "height 0.5s ease",
+          left: "50%",
+          overflow: "hidden",
       }}>
-        <div
+        <div className="align-items-center"
           style={{
             backgroundColor: "#5555",
             color: "white",
             display: "flex",
-            padding: "15px",
+            padding: "10px 15px",
             flexDirection: "row",
             justifyContent: "space-between",
             borderRight: "1px solid grey",
             marginLefteft: "200px",
             borderBottom: "1px solid grey",
-            cursor: "pointer"
+            cursor: "pointer", 
           }}
         >
           <h1 className="headingnew">Console</h1>
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-            <MdRefresh size={"1.5rem"} />
-            <FaTrash onClick={clearLogs} color="red" size={"1.2rem"} />
-            <FaArrowDown
+            <MdRefresh size={"1rem"} />
+            <FaRegTrashCan onClick={clearLogs} color="#7a7a7a" size={"1rem"} />
+            <IoIosArrowDown
               onClick={toggleConsole}
               style={{
                 transform: isConsoleOpen ? "rotate(0deg)" : "rotate(180deg)",
-                transition: "transform 0.3s"
+                transition: "transform 0.3s",
+                color:"#7a7a7a"
               }}
             />
           </div>

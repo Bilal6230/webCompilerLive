@@ -1,7 +1,7 @@
 //code mirror 核心
 import * as CodeMirror from "codemirror/lib/codemirror";
 
-import "codemirror/lib/codemirror.css";
+// import "codemirror/lib/codemirror.css";
 //主题
 import "codemirror/theme/material.css";
 

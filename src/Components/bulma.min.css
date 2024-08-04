@@ -365,8 +365,7 @@ html {
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
     min-width: 300px;
-    overflow-x: hidden;
-    overflow-y: scroll;
+    overflow-x: hidden; 
     text-rendering: optimizeLegibility;
     -webkit-text-size-adjust: 100%;
     -moz-text-size-adjust: 100%;
@@ -6291,8 +6290,8 @@ label.panel-block:hover {
     display: flex;
     font-size: 1rem;
     justify-content: space-between;
-    overflow: hidden;
-    overflow-x: auto;
+    /* overflow: hidden; */
+    /* overflow-x: auto; */
     white-space: nowrap;
 }
 .tabs a {
